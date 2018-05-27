@@ -1,2 +1,2 @@
 export default {}
-export const API_URL = 'https://conduit.productionready.io/api'
+export const API_URL = 'http://woofapi:3000/api'

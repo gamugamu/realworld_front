@@ -14,6 +14,7 @@ const getters = {
     return state.user
   },
   isAuthenticated (state) {
+    console.log('isauth? ', state.isAuthenticated)
     return state.isAuthenticated
   }
 }
