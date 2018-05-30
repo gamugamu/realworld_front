@@ -145,32 +145,36 @@
         var input = event.target
         console.log('XX---> ', event.target.files)
 
+        var Minio = require('minio')
+
+        console.log('*** minio service')
+
+        // file
+        var minioClient = new Minio.Client({
+          endPoint: 'localhost',
+          port: 9000,
+          secure: false,
+          accessKey: 'AKIAIOSFODNN7EXAMPLE', // domaine restriction par nginx
+          secretKey: 'SECRETSECRET'
+        })
+
+        console.log('*** minio service', minioClient)
+
         if (input.files && input.files[0]) {
           // create a new FileReader to read this image and convert to base64 format
-          var reader = new FileReader()
-          // Define a callback function to run, when FileReader finishes its job
-          reader.onload = (e) => {
-            // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
-            // Read image as base64 and set to imageData
-            this.imageData = e.target.result
+          var fileReaderStream = require('filereader-stream')
+          var concat = require('concat-stream')
+
+          var f = input.files[0]
+          console.log('F ---> ', f)
+
+          fileReaderStream(f).pipe(concat(function (contents) {
+            // contents is the contents of the entire file
+            console.log('contents ---> ', contents)
+            // Start the reader job - read file as a data url (base64 format)
             try {
-              var Minio = require('minio')
-
-              console.log('*** minio service')
-
-              // file
-              var minioClient = new Minio.Client({
-                endPoint: 'localhost',
-                port: 9000,
-                secure: false,
-                accessKey: 'AKIAIOSFODNN7EXAMPLE', // domaine restriction par nginx
-                secretKey: 'SECRETSECRET'
-              })
-
-              console.log('*** minio service', minioClient)
-              console.log('---> ', input.files[0])
-
               // Make a bucket called europetrip.
+              /*
               minioClient.makeBucket('blogimage', 'eu-west-3', function (err) {
                 console.log('will make bucket')
 
@@ -179,8 +183,10 @@
                 }
                 console.log('Bucket created successfully in "us-east-1".')
               })
+              */
+              console.log('f  ---> ', f)
 
-              minioClient.putObject('blogimage', 'hellofile.jpg', this.imageData, function (err, etag) {
+              minioClient.putObject('blogimage', 'Tfile.jpg', contents, function (err, etag) {
                 console.log('PUT***')
                 console.log(err, etag)
                 return console.log(err, etag) // err should be null
@@ -188,9 +194,15 @@
             } catch (err) {
               console.log('X ---> ', err, err.message)
             }
+          }))
+          var reader = new FileReader()
+          // Define a callback function to run, when FileReader finishes its job
+          reader.onload = (e) => {
+            // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+            // Read image as base64 and set to imageData
+            this.imageData = e.target.result
           }
-          // Start the reader job - read file as a data url (base64 format)
-          reader.readAsDataURL(input.files[0])
+          // reader.readAsText(input.files[0])
         }
       },
       removeTag (tag) {

@@ -18,7 +18,9 @@
   "dependencies": {
     "axios": "^0.18.0",
     "date-fns": "^1.29.0",
+    "filereader-stream": "^2.0.0",
     "fs": "0.0.1-security",
+    "fs-web": "^1.0.1",
     "marked": "^0.3.19",
     "minio": "^5.0.2",
     "module": "^1.2.5",
