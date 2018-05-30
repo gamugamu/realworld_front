@@ -18,7 +18,10 @@
   "dependencies": {
     "axios": "^0.18.0",
     "date-fns": "^1.29.0",
+    "fs": "0.0.1-security",
     "marked": "^0.3.19",
+    "minio": "^5.0.2",
+    "module": "^1.2.5",
     "vue": "^2.5.16",
     "vue-axios": "^2.1.1",
     "vue-router": "^3.0.1",
