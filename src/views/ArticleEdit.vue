@@ -60,6 +60,9 @@
             <div class="image-preview" v-if="imageData.length > 0">
               <img class="preview" :src="imageData">
             </div>
+            <img src="http://localhost:9000/blogimage/Tfile.jpg" alt="Smiley face" height="42" width="42">
+
+
         </div>
       </div>
     </div>
@@ -188,7 +191,6 @@
 
               minioClient.putObject('blogimage', 'Tfile.jpg', contents, function (err, etag) {
                 console.log('PUT***')
-                console.log(err, etag)
                 return console.log(err, etag) // err should be null
               })
             } catch (err) {
